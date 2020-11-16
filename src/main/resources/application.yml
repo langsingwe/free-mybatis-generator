@@ -1,0 +1,7 @@
+server:
+  port: 8021
+
+spring:
+  resources:
+    static-locations: classpath:/static/, classpath:/views/
+
