@@ -12,7 +12,7 @@ $(function () {
         height: 385,
         rowNum: 10,
 		rowList : [10,30,50,100,200],
-        rownumbers: true, 
+        // rownumbers: true,
         rownumWidth: 25, 
         autowidth:true,
         multiselect: true,
@@ -55,7 +55,11 @@ var vm = new Vue({
                 return ;
             }
             location.href = "sys/generator/code?tables=" + tableNames.join();
-		}
+		},
+        reset:function() {
+            vm.q.tableName = "";
+            this.$options.methods.query();
+        }
 	}
 });
 
