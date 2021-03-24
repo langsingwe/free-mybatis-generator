@@ -13,5 +13,19 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface ${className}Dao extends BaseMapper<${className}Entity> {
-	
+
+    #if(${xmlcrud})
+
+    ${className}Entity selectByPrimaryKey(${pk.attrType} ${pk.attrname});
+
+    int deleteByPrimaryKey(${pk.attrType} ${pk.attrname});
+
+    int insert(${className}Entity entity);
+
+    int insertSelective(${className}Entity entity);
+
+    int updateByPrimaryKeySelective(${className}Entity entity);
+
+    #end
+
 }
