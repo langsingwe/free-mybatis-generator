@@ -14,5 +14,57 @@
         #foreach($column in $columns)${column.columnName}#if($velocityCount!=$columns.size()),#end#end
 
     </sql>
+    #if(${xmlcrud})
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from ${tableName}
+        where ${pk.columnName} = #{${pk.attrname},jdbcType=${pk.dataType}}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from ${tableName}
+        where ${pk.columnName} = #{${pk.attrname},jdbcType=${pk.dataType}}
+    </delete>
+
+    <insert id="insert" parameterType="${package}.entity.${className}Entity">
+        insert into ${tableName} (
+            #foreach($column in $columns)${column.columnName}#if($velocityCount!=$columns.size()),#end#end
+          )
+        values (
+            #foreach($column in $columns)#{${column.attrname},jdbcType=${column.dataType}}#if($velocityCount!=$columns.size()),#end#end
+          )
+    </insert>
+
+    <insert id="insertSelective" parameterType="${package}.entity.${className}Entity">
+        insert into ${tableName}
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            #foreach($column in $columns)
+<if test="${column.attrname} != null#if(${column.attrType} == "String") and ${column.attrname} != ''#end" >
+                ${column.columnName},
+            </if>
+            #end
+</trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            #foreach($column in $columns)
+<if test="${column.attrname} != null#if(${column.attrType} == "String") and ${column.attrname} != ''#end" >
+                #{${column.attrname},jdbcType=${column.dataType}},
+            </if>
+            #end
+</trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="${package}.entity.${className}Entity">
+        update ${tableName}
+        <set >
+            #foreach($column in $columns)
+<if test="${column.attrname} != null#if(${column.attrType} == "String") and ${column.attrname} != ''#end" >
+                ${column.columnName} = #{${column.attrname},jdbcType=${column.dataType}},
+            </if>
+            #end
+</set>
+        where ${pk.columnName} = #{${pk.attrname},jdbcType=${pk.dataType}}
+    </update>
+    #end
 
 </mapper>

@@ -1,6 +1,7 @@
 package com.weilc.utils;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
 import com.weilc.exception.GenException;
 import com.weilc.model.ColumnEntity;
 import com.weilc.model.TableEntity;
@@ -89,6 +90,7 @@ public class GenUtil {
             dataMap.put("package", config.getString("package"));
             dataMap.put("author", config.getString("author"));
             dataMap.put("email", config.getString("email"));
+            dataMap.put("xmlcrud", StrUtil.isBlank(config.getString("xmlcrud")) ? true : Boolean.valueOf(config.getString("xmlcrud")));
             dataMap.put("datetime", DateUtil.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
             VelocityContext ctx = new VelocityContext(dataMap);
             //获取模板列表
