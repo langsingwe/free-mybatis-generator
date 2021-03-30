@@ -38,6 +38,8 @@ public class ColumnEntity {
 
     private String extra;
 
+    private String jdbcType;
+
     public String getAttrName() {
         return attrName;
     }

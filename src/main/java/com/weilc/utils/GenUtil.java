@@ -36,6 +36,7 @@ public class GenUtil {
         //配置信息
         Configuration genConfig = ResourceUtil.getConfig("generator.properties");
         Configuration config = ResourceUtil.getConfig("config.properties");
+        Configuration jdbcType = ResourceUtil.getConfig("jdbctype.properties");
         //表信息
         TableEntity tableEntity = new TableEntity();
         tableEntity.setTableName(table.get("tableName"));
@@ -52,6 +53,8 @@ public class GenUtil {
                 columnEntity.setDataType(column.get("dataType"));
                 columnEntity.setComments(column.get("columnComment"));
                 columnEntity.setExtra(column.get("extra"));
+                //数据库列类型转换为jdbcType
+                columnEntity.setJdbcType(jdbcType.getString(columnEntity.getDataType(),"unknownType"));
                 //列名转成Java属性
                 String attrName = DatabaseUtil.columnToJava(columnEntity.getColumnName(), config.getString("camelCase"));
                 columnEntity.setAttrName(attrName);
